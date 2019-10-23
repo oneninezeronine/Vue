@@ -89,3 +89,126 @@ Vue使用`{{}}`声明式渲染
 </body>
 </html>
 ```
+
+由于vue在开发的时候，默认引入是，只有运行时，没有编译器
+```js
+vue.runtime.common.dev.js
+```
+vue.js完整版：同时包含编译器和运行时的版本。
+
+里面有`template`和`render`的选项
+```js
+new Vue({
+    el,
+    data,
+    template:`
+        <p>{{name}}</p>
+    `,
+    render
+})
+```
+render和template，因为render不需要编译器的，所以是运行的版本，template是需要编译器，所以完整版本
+```js
+// 需要编译器 字符串
+new Vue({
+  template: '<div>{{ hi }}</div>'
+})
+
+// 不需要编译器 字符串模板变成函数
+new Vue({
+  render (h) {
+    return h('div', this.hi)
+  }
+})
+```
+我们一般写的是html结构，但是在大型框架里面，字符串的模板一般不好处理的
+```html
+<template>
+    <p name="yao">hello world
+        <span style="color:red">123</span>
+        <span>123</span>
+    </p>
+</template>
+
+<template>
+    <p name="yao">hello world
+        <span style="color:red">1234</span>
+        <span>123</span>
+    </p>
+</template>
+```
+你写还是写html模板，但是它会自动转为一个函数
+```js
+h(
+    "p",
+    {
+    name: "yao"
+    },
+    "hello world",
+    h(
+    "span",
+    {
+        style: "color:red"
+    },
+    name
+    ),
+    h("span", null, model)
+    );
+}
+```
+生成一个对象，把html模板转为对象
+```js
+let view1 = {
+    tag: 'p',
+    text: undefined
+    children:[{
+        tag: undefined,
+        text: 'yao'
+    }]
+}
+
+let view2 = {
+    tag: 'p',
+    text: undefined
+    children:[{
+        tag: undefined,
+        text: 'yao1'
+    }]
+}
+```
+数据层没变动一次，其实会重新触发render，生成多分JS对象
+```js
+import Vue from 'vue'
+new Vue({
+    // V
+    el: "#app",
+    // M
+    data: {
+        model: "yao"
+    },
+    // render会在data变化的时候重新触发一次
+    render(h) {
+        // h(标签的名字，该标签的属性，标签里面的值)
+        let view = h('div', null, this.model)
+        console.log(view)
+        return view
+    }
+})
+```
+不同镜像(js对象)做比较，找出差异的地方，实现局部更新
+
+把html的字符串转render交给编译器去处理
+
+编译器：用来将模板字符串编译成为 JavaScript 渲染函数的代码。
+
+html->js函数->js对象
+
+编译器交给webpack(node)去弄，可以节省Vue代码量，让vue的代码更轻便，
+
+
+index.sass
+
+如果我们想把编译器也引入，也就是template交给浏览器转render，那我们可以引入完整版本
+```js
+import Vue from 'vue/dist/vue'
+```
