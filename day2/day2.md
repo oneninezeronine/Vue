@@ -120,3 +120,180 @@ methods: {
     <button @click="test">ok</button>
 </div>
 ```
+v-model其实就是@input，如果你写@input，代码量会比较多，从V->M，只有v-on:或者v-model能是实现
+
+```js
+// 从视图层把数据带回数据层
+// @input特殊的 V-M的一个方式
+new Vue({
+    el: '#demo',
+    data: {
+        bool: !0,
+        value: ''
+    },
+    methods: {
+        // 事件对象
+        getInputValue: function (event) {
+            this.value = event.target.value
+            console.log(event.target.value)
+        }
+    },
+    template: `
+        <div>
+            <input @input="getInputValue" />
+            <p></p>
+        </div>
+    `,
+
+})
+```
+
+v-model可以用在三个标签
+
+这些指令让vue框架拥有双向数据绑定的能力
+
+|M->V|V->M|
+|-|-|
+|v-show|v-on|
+|v-if|v-model(v-on:input)|
+|v-else||
+|v-html||
+|v-text||
+|v-for||
+|v-bind||
+
+上面这些指令构造成数据的双向绑定
+```html
+<input v-model="value" />
+<select v-model="value">
+    <option v-for="a in arr">{{a}}</option>
+</select>
+<textarea v-model="value"></textarea>
+```
+
+Vue 还提供了`v-model`指令，它能轻松实现表单输入和应用状态之间的双向绑定
+
+v-bind
+```html
+<div>
+    <img v-bind:src="url" />
+    <!-- 简写 -->
+    <img :src="url" />
+</div>
+```
+在绑定 class 或 style 特性时，支持其它类型的值，如数组或对象。
+```html
+<!-- class 绑定 -->
+<!-- isRed控制red类出现或者隐藏 -->
+<div :class="{ red: isRed }"></div>
+<!-- 出现classA, classB -->
+<div :class="[classA, classB]"></div>
+<!-- classA必须出现 -->
+<div :class="[classA, { classB: isB, classC: isC }]">
+```
+`:class`是切换类名
+```html
+<div>
+    <select v-model="isColor">
+        <option v-for="c in color" :value="c">{{c}}</option>
+    </select>
+    <img :name="name" v-bind:src="url" />
+    <img :src="url" />
+    <p :class="{blue:isColor==='blue',red:isColor==='red'}">类指令</p>
+</div>
+```
+注意一定要驼峰写法
+```html
+<!-- style 绑定 -->
+<div :style="{ fontSize: size + 'px' }"></div>
+<div :style="[styleObjectA, styleObjectB]"></div>
+```
+```html
+<input type="range" v-model="size" />
+    <p :style="{
+        fontSize: size+'px'
+    }">内容</p>
+</div>
+```
+上面那个在加载的时候不会出现`{{name}}`，一般建议用第一个
+```html
+<p v-text="name"></p>
+<p>{{name}}</p>
+```
+js放上面确实可以解决这个问题，但不建议
+```js
+<script src="./vue.js"></script>    
+<div id="demo">
+    <div>
+        <p v-text="name"></p>
+        <p>{{name}}</p>
+    </div>
+</div>
+<script>
+    new Vue({
+        el: '#demo',
+        data: {
+            name: 'hello world'
+        }
+    })
+</script>
+```
+把html结构插入到视图层上面
+```js
+new Vue({
+    el: '#demo',
+    data: {
+        html: `<div>123<span style="color:red">567</span></div>`
+    },
+    template: `
+        <div>
+            <p v-html="html"></p>
+        </div>
+    `
+})
+```
+让`{{name}}`不编译
+```html
+<div>
+    <p v-pre>{{name}}</p>
+    <p>{{name}}</p>
+</div>
+```
+如果你使用`{{name}}`，可以让他在一开始隐藏，等到vue编译阶段才显示回来
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="demo">
+        <div v-cloak>
+            <p v-text="name"></p>
+            <p>{{name}}</p>
+        </div>
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+        new Vue({
+            el: '#demo',
+            data: {
+                name: 'hello world'
+            }
+        })
+    </script>
+</body>
+
+</html>
+```
+
