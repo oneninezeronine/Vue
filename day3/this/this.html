@@ -33,11 +33,17 @@
         //     },
         //     function(){}
         // )
-
         function Vue(option){
+            // 私有属性
+            let el = option.el
+            // 共有属性
             this.el = option.el,
             this.data = option.data
         }
+        // 静态属性
+        Vue.name = 'yao'
+        // 原型属性 继承
+        Vue.prototype.name = 'yao'
         const vm = new Vue({
             el:"#demo",
             data:{

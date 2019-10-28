@@ -45,3 +45,51 @@ document.querySelector('xxx').style.color = "red"
 - deactivated
 - beforeDestroy
 - destroyed
+
+# 组件
+
+允许我们使用小型、独立和通常可复用的组件构建大型应用
+
+- 小型 体积越小，性能越高
+- 独立
+- 可复用
+
+组件几个特性，组件越小，镜像对比就越性能越高
+
+一个项目通常只有一个根容器
+```js
+# 跟容器
+new Vue()
+```
+
+注册组件的常用方法
+```js
+Vue.component()
+```
+
+```js
+Vue.extend()
+```
+
+`new Vue`里面能用的选项，在组件同样适用
+```js
+const Header = Vue.extend({
+    // el不能使用
+    el:``,
+    // 独一无二
+    data(){
+        return {}
+    },
+    // 选项
+    template:`<div>组件1</div>`,
+    computed,
+    watch:{},
+    created(){},
+    methods:{},
+    data(){}
+})
+```
+
+通过 Prop 向子组件传递数据
+
+组件的本质是自定义标签
