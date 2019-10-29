@@ -1,5 +1,5 @@
 import Vue from 'vue/dist/vue'
-import Header from '../model/header'
+import Header from '../model/header.vue'
 import Search from '../model/search'
 import Panel from '../model/panel'
 export default Vue.extend({

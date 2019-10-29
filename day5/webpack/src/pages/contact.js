@@ -1,5 +1,5 @@
 import Vue from 'vue/dist/vue'
-import Header from '../model/header'
+import Header from '../model/header.vue'
 export default Vue.extend({
     template: `
         <div>
