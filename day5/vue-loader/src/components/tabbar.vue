@@ -30,6 +30,7 @@
   </div>
 </template>
 <script>
+import store from '../store'
 import iconTabbar from "../assets/icon_tabbar.png";
 export default {
   data() {
@@ -66,6 +67,7 @@ export default {
   },
   methods: {
     toggle(index) {
+      store.setTabbar(index)
       this.offset = index;
     }
   }

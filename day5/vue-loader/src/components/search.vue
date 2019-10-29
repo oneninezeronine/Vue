@@ -27,6 +27,7 @@
   </div>
 </template>
 <script>
+import store from '../store'
 export default {
   data() {
     return {
@@ -47,6 +48,12 @@ export default {
     // 清空搜索框
     clear() {
       this.searchText = "";
+    }
+  },
+  watch:{
+    searchText(newValue){
+      store.setSearchText(newValue)
+      console.log(newValue)
     }
   }
 };

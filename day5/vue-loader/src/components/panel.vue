@@ -25,9 +25,11 @@
   </div>
 </template>
 <script>
+import store from '../store'
 export default {
   data() {
     return {
+      state: store.state,
       news: [
         {
           media_name: "新华网客户端",
@@ -956,14 +958,14 @@ export default {
       // 如果有搜索的值就计算结果
       // 否则使用原来数据
       let _ = this;
-      if (this.searchText) {
+      if (this.state.searchText) {
         // 搜索的值
         // this.searchText
         // 新闻原数据
         // this.news
         return this.news.filter(function(item) {
           console.log(this);
-          if (item.title.indexOf(_.searchText) >= 0) {
+          if (item.title.indexOf(_.state.searchText) >= 0) {
             return item;
           }
         });

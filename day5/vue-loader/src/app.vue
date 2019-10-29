@@ -10,10 +10,12 @@
 import Tabbar from "./components/tabbar.vue";
 import Wechat from "./pages/wechat.vue";
 import Contact from "./pages/contact.vue";
+import store from "./store";
 export default {
   data() {
     return {
-      componentName: 0
+      componentName: 0,
+      state: store.state
     };
   },
   components: {
@@ -23,7 +25,7 @@ export default {
   },
   computed: {
     componentNameComputed() {
-      return this.componentName === 0 ? "Wechat" : "Contact";
+      return this.state.tabbar === 0 ? "Wechat" : "Contact";
     }
   }
 };
