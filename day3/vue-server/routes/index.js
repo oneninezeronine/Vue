@@ -2,8 +2,13 @@ var express = require('express');
 var router = express.Router();
 
 /* GET home page. */
-router.get('/news', function (req, res, next) {
-  res.append('Access-Control-Allow-Origin','*')
+router.get('/news', async function (req, res, next) {
+  res.append('Access-Control-Allow-Origin', '*')
+  await new Promise((resolve) => {
+    setTimeout(() => {
+      resolve()
+    }, 1000)
+  })
   res.json({
     "media_name": "新京报",
     "ban_comment": 0,

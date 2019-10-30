@@ -7,7 +7,7 @@
         href="javascript:void(0);"
         class="weui-media-box weui-media-box_appmsg"
       >
-        <div v-if="n.has_image" class="weui-media-box__hd">
+        <div @click="showGallery(n.image_url)" v-if="n.has_image" class="weui-media-box__hd">
           <img class="weui-media-box__thumb" :src="n.image_url" alt />
         </div>
         <div class="weui-media-box__bd">
@@ -25,7 +25,7 @@
   </div>
 </template>
 <script>
-import store from '../store'
+import store from "../store";
 export default {
   data() {
     return {
@@ -939,16 +939,30 @@ export default {
   methods: {
     // 查看更多
     loadMore() {
+      // 修改加载圈圈状态
+      this.$store.dispatch("setToast", {
+        status: true
+      });
       let _ = this;
       let xhr = new XMLHttpRequest();
       xhr.onreadystatechange = function() {
         if (xhr.status === 200 && xhr.readyState === 4) {
           console.log(JSON.parse(xhr.responseText));
           _.news = _.news.concat(JSON.parse(xhr.responseText));
+          _.$store.dispatch("setToast", {
+            status: false
+          });
         }
       };
       xhr.open("GET", "http://localhost:3000/news", true);
       xhr.send();
+    },
+    // 显示画廊
+    showGallery(imgUrl) {
+      this.$store.dispatch("setGallery", {
+        status: true,
+        imgUrl
+      });
     }
   },
   computed: {
