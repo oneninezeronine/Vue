@@ -14,7 +14,13 @@ export default {
     };
   },
   methods: {
-    onSearch() {}
+    // 搜索
+    onSearch() {
+      this.$store.dispatch('setAuthor',{
+        value:this.value
+      })
+      window.console.log(this.value)
+    }
   }
 };
 </script>

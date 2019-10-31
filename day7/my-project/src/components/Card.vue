@@ -7,7 +7,7 @@
     @load="onLoad"
   >
     <van-card
-      v-for="(r,index) in restaurants"
+      v-for="(r,index) in restaurantsComputed"
       :key="index"
       num="2"
       price="2.00"
@@ -42,8 +42,26 @@ export default {
       restaurants: []
     };
   },
+  computed: {
+    search() {
+      return this.$store.getters.getAuthor;
+    },
+    restaurantsComputed() {
+      if (this.search.value) {
+        return this.restaurants.filter(item => {
+          window.console.log(item);
+          if (item.name.indexOf(this.search.value) >= 0) {
+            return item;
+          }
+        });
+      } else {
+        return this.restaurants;
+      }
+    }
+  },
   created() {
-    // window.console.log(this)
+    this.$parent.$data.test = "abc";
+    window.console.log(this);
   },
   methods: {
     onLoad() {
