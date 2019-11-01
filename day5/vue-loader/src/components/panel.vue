@@ -8,7 +8,7 @@
         class="weui-media-box weui-media-box_appmsg"
       >
         <div @click="showGallery(n.image_url)" v-if="n.has_image" class="weui-media-box__hd">
-          <img class="weui-media-box__thumb" :src="n.image_url" alt />
+          <img v-radius="'50%'" class="weui-media-box__thumb" :src="n.image_url" alt />
         </div>
         <div class="weui-media-box__bd">
           <h4 class="weui-media-box__title" v-text="n.title"></h4>
@@ -985,6 +985,15 @@ export default {
         });
       } else {
         return _.news;
+      }
+    }
+  },
+  directives: {
+    radius: {
+      // 指令的定义
+      inserted: function(el, binding) {
+        console.log(el, binding);
+        el.style.borderRadius = binding.value;
       }
     }
   }
