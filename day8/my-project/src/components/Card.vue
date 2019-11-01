@@ -82,8 +82,11 @@ export default {
     },
     // 跳转详情页
     navToDetal(index) {
+      // /detail/123?plan=private
       this.$router.push({
-        name: "detail"
+        name: "detail",
+        params: { id: index }
+        // query: { plan: "private" }
       });
       // window.location.href
       window.console.log(index);
